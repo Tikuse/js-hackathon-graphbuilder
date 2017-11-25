@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>"Чертежник"</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css" />
+</head>
+<body>
+    <div class="container-fluid">
+        <h1>"Чертежник"</h1>
+        <hr>
+        <div class="row">
+            <div class="col-lg-5">
+                <p>График:</p>
+                <div id='jxgbox' class='jxgbox' style='height:400px;'></div>       
+            </div>
+            <div class="col-lg-3 forMedia">
+                <p>Список команд:</p>
+                <form action="#">
+                    <div class="divsList" id="A">
+                        <div class="ElementList" data-action="up">Поднять перо</div>
+                        <div class="ElementList" data-action="down">Опустить перо</div>
+                        <div class="ElementList for" data-action="for">For (<input type="text" class="iterations" required placeholder="Повтор">)</div>
+                        <div class="ElementList end" data-action="end">End</div>
+                        <div class="ElementList" data-action="moveToPoint">Сместить в точку (<input type="text" class="coordinateX" required placeholder="X">, <input type="text" class="coordinateY" required placeholder="Y">)</div>
+                        <div class="ElementList" data-action="moveToVector">Сместить на вектор (<input type="text" class="vectorX" required placeholder="X">, <input type="text" class="vectorY" required placeholder="Y">)</div>
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="col-lg-4">
+                <p>На выполение:</p>
+                <div class="AreaOptions commandList" id="B">
+                    <h3 class="forAreaText">Перетащи сюда!</h3>
+                </div>
+                <button class="btn btn-success execute">Запустить</button>
+                <button class="btn btn-danger save">Сохранить</button>
+                <button class="btn btn-primary saveList" data-toggle="modal" data-target="#myModal">Список сохранений</button>
+                <button class="btn btn-warning clearGraph">Очистить график</button>
+                <button class="btn btn-info clearOnRun">Очистить поле выполнения</button>
+                <div class="alert alert-success">
+                    <strong>Сохранено!</strong>
+                </div>
+                <!-- Modal -->
+                <div id="myModal" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        
+                        <h4 class="modal-title">Сохранения</h4>
+                      </div>
+                      <div class="modal-body">
+                        <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th>Имя</th>
+                                <th>Дата</th>  
+                              </tr>
+                            </thead>
+                            <tbody class="saveBank">
+
+                            </tbody>
+                          </table>
+                      </div>
+                      <div class="modal-footer">
+                        <button class="btn btn-warning clearStorage" onclick="localStorage.clear();">Очистить</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                      </div>
+                    </div>
+                
+                  </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+  
+    <script type="text/javascript" src="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script type="text/javascript" src="js/graphFunctions.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/events.js"></script>
+    <script src="http://rubaxa.github.io/Sortable/Sortable.js"></script>
+    <script>
+        Sortable.create(A, {
+            animation: 200,
+            group: {
+            name: "shared",
+            pull: "clone",
+            put: false,
+            revertClone: true,
+            },
+            sort: false
+        });
+        
+        Sortable.create(B, {
+            
+            group: "shared",
+            sort: true, 
+            onAdd: function (evt) {
+                var el = evt.item;
+                $('.forAreaText').remove();
+                el.innerHTML += '<span onClick="this.parentNode.parentNode.removeChild(this.parentNode);" class="close"></span>';
+            },
+           
+        });
+        
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+       
+</body>
+</html>
